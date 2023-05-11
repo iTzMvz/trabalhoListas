@@ -36,10 +36,30 @@ const listaProdutos = ref([
   },
   {
     id: 6,
-    nome: '',
-    preco: 39.99,
+    nome: 'Moletom',
+    preco: 149.99,
     quantidade: 0
   },
+  {
+    id: 7,
+    nome: 'Sapato',
+    preco: 69.99,
+    quantidade: 0
+  },
+  {
+    id: 7,
+    nome: 'Sapato',
+    preco: 69.99,
+    quantidade: 0
+  },
+  {
+    id: 7,
+    nome: 'Sapato',
+    preco: 69.99,
+    quantidade: 0
+  },
+
+
 ])
 
 function addCarrinho(id, nome, quantidade, preco) {
@@ -73,14 +93,25 @@ function calculaValorTotal() {
         <div>Quantidade: {{ produto.quantidade }}</div>
         <button
           @click="addCarrinho(produto.id, produto.nome, produto.quantidade, produto.preco), produto.quantidade = 0">Adicionar</button>
-        <button @click="produto.quantidade++" style="background-color: rgb(161, 211, 231)">+</button>
-        <button v-if="produto.quantidade > 0" @click="produto.quantidade--" style="background-color: rgb(230, 43, 32)">
-          -
-        </button>
+        <div><button @click="produto.quantidade++" style="background-color: rgb(161, 211, 231)">+</button>
+          <button v-if="produto.quantidade > 0" @click="produto.quantidade--" style="background-color: rgb(230, 43, 32)">
+            -
+          </button>
+        </div>
       </li>
     </div>
   </ul>
-  <div>{{ carrinho }}</div>
+  <ul>
+    <div class="carrinho">
+      <li v-for="(produto, i) in carrinho" :key="produto.id">
+        <div>{{ produto.nome }}</div>
+        <div>
+          {{ produto.preco.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) }}
+        </div>
+        <div>Quantidade: {{ produto.quantidade }}</div>
+      </li>
+    </div>
+  </ul>
 </template>
 <style scoped>
 button {
@@ -95,7 +126,15 @@ button {
   flex-wrap: wrap;
   flex-direction: row;
   align-content: center;
-  justify-content: space-around;
-  margin-right: 1000px;
+  justify-content: start;
+  }
+
+.carrinho {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+li{
+  margin-right: 20px;
 }
 </style>
