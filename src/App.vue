@@ -47,13 +47,13 @@ const listaProdutos = ref([
     quantidade: 0
   },
   {
-    id: 7,
-    nome: 'Sapato',
-    preco: 69.99,
+    id: 8,
+    nome: 'Cinto',
+    preco: 29.99,
     quantidade: 0
   },
   {
-    id: 7,
+    id: 9,
     nome: 'Sapato',
     preco: 69.99,
     quantidade: 0
@@ -81,11 +81,13 @@ function calculaValorTotal() {
     }
   }
 }
+
 </script>
 <template>
   <ul>
     <div class="produtos">
-      <li v-for="(produto, i) in listaProdutos" :key="produto.id">
+      <li v-for="(produto, i) in listaProdutos" :key="i">
+        <div><img :src="produto.foto" alt=""></div>
         <div>{{ produto.nome }}</div>
         <div>
           {{ produto.preco.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) }}
@@ -93,8 +95,8 @@ function calculaValorTotal() {
         <div>Quantidade: {{ produto.quantidade }}</div>
         <button
           @click="addCarrinho(produto.id, produto.nome, produto.quantidade, produto.preco), produto.quantidade = 0">Adicionar</button>
-        <div><button @click="produto.quantidade++" style="background-color: rgb(161, 211, 231)">+</button>
-          <button v-if="produto.quantidade > 0" @click="produto.quantidade--" style="background-color: rgb(230, 43, 32)">
+        <div><button @click="produto.quantidade++" id="mais">+</button>
+          <button v-if="produto.quantidade > 0" @click="produto.quantidade--" id="menos">
             -
           </button>
         </div>
@@ -103,7 +105,8 @@ function calculaValorTotal() {
   </ul>
   <ul>
     <div class="carrinho">
-      <li v-for="(produto, i) in carrinho" :key="produto.id">
+      <div v-if="valorTotal > 0">Valor total: {{ valorTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) }}</div> 
+      <li v-for="(produto, i) in carrinho" :key="i">
         <div>{{ produto.nome }}</div>
         <div>
           {{ produto.preco.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) }}
@@ -119,21 +122,30 @@ button {
   border-radius: 10px;
   font-weight: bold;
   background-color: rgb(231, 213, 130);
+  box-shadow: 3px 4px 5px rgb(133, 117, 45);
 }
-
 .produtos {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: start;
   }
-
 .carrinho {
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
 }
 li{
   margin-right: 20px;
+  margin-left: 20px;
+}
+#mais{  
+  background-color: rgb(161, 211, 231);
+  box-shadow: 2px 3px 5px rgb(54, 80, 90);
+}
+#menos{
+  padding-right: 6px;
+  padding-left: 6px;
+  background-color: rgb(230, 43, 32);
+  box-shadow: 2px 3px 5px rgb(116, 26, 22);
 }
 </style>
