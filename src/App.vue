@@ -42,14 +42,13 @@ const listaProdutos = ref([
   },
 ])
 
-function addCarrinho(produto) {
-  if (produto.quantidade == 0) {
+function addCarrinho(id, nome, quantidade, preco) {
+  if (quantidade == 0) {
     alert(erroQnt.value)
   } else {
-    carrinho.value.push(produto.id, produto.nome, produto.preco, produto.quantidade)
+    carrinho.value.push({ id, nome, quantidade, preco })
     calculaValorTotal()
   }
-  produto.quantidade = 0
 }
 
 const valorTotal = ref(0)
@@ -72,7 +71,8 @@ function calculaValorTotal() {
           {{ produto.preco.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) }}
         </div>
         <div>Quantidade: {{ produto.quantidade }}</div>
-        <button @click="addCarrinho(produto)">Adicionar</button>
+        <button
+          @click="addCarrinho(produto.id, produto.nome, produto.quantidade, produto.preco), produto.quantidade = 0">Adicionar</button>
         <button @click="produto.quantidade++" style="background-color: rgb(161, 211, 231)">+</button>
         <button v-if="produto.quantidade > 0" @click="produto.quantidade--" style="background-color: rgb(230, 43, 32)">
           -
@@ -90,12 +90,12 @@ button {
   background-color: rgb(231, 213, 130);
 }
 
-.produtos{
-display: flex;
-flex-wrap: wrap;
-flex-direction: row;
-align-content: center;
-justify-content: space-around;
-margin-right: 1000px;
+.produtos {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-around;
+  margin-right: 1000px;
 }
 </style>
