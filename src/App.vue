@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 
-const verCarrinho = ref(false)
 const erroQnt = ref('Adicione o produto primeiro antes de colocar no carrinho')
 const carrinho = ref([])
 const listaProdutos = ref([
@@ -64,11 +63,13 @@ const listaProdutos = ref([
 function addCarrinho(id, nome, quantidade, preco) {
   if (quantidade == 0) {
     alert(erroQnt.value)
-  } else {
+  } else { 
     carrinho.value.push({ id, nome, quantidade, preco })
     calculaValorTotal()
+    }
   }
-}
+
+
 
 const valorTotal = ref(0)
 
@@ -87,16 +88,12 @@ function limpaCarrinho() {
   } else alert('O carrinho já está vazio')
 }
 
-function quantItens() {
-  if(carrinho[carrinho.findIndex(produto => produto.id == -1)]){
-    carrinho.push()
-  }
-}
 </script>
 <template>
+  <h1>Mvz's Shop</h1>
   <ul>
     <div class="produtos">
-      <li v-for="(produto, i) in listaProdutos" :key="i">
+      <li v-for="(produto, i) in listaProdutos" :key="i" class="item">
         <div>{{ produto.nome }}</div>
         <div>
           {{ produto.preco.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) }}
@@ -113,21 +110,18 @@ function quantItens() {
     </div>
   </ul>
   <ul>
-    <button @click="verCarrinho = !verCarrinho" style="margin-left: 20px" v-if="carrinho.length > 0">
-      Ver carrinho
-    </button>
-    <div v-if="verCarrinho">
-      <div>
-        <button @click="limpaCarrinho()" style="margin-left: 20px" v-if="carrinho.length > 0">
+    <div class="card">
+        <button @click="limpaCarrinho()" v-if="carrinho.length > 0">
           Limpar carrinho
         </button>
-      </div>
-      <div class="carrinho">
-        <div v-if="valorTotal > 0">
-          Valor total:
+    </div>
+     <div v-if="valorTotal > 0" style="text-align: center;">
+         <h3> Valor total:
           {{ valorTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) }}
+        </h3>
         </div>
-        <li v-for="(produto, i) in carrinho" :key="i">
+      <div class="carrinho">
+        <li v-for="(produto, i) in carrinho" :key="i" class="itemCarrinho">
           <div>{{ produto.nome }}</div>
           <div>
             {{ produto.preco.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) }}
@@ -135,7 +129,6 @@ function quantItens() {
           <div>Quantidade: {{ produto.quantidade }}</div>
         </li>
       </div>
-    </div>
   </ul>
 </template>
 <style scoped>
@@ -146,23 +139,46 @@ button {
   background-color: rgb(231, 213, 130);
   box-shadow: 3px 4px 5px rgb(133, 117, 45);
 }
-
 .produtos {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: start;
+  justify-content: center;
+  width: 600px;
+  margin: auto;
 }
-
-.carrinho {
+.card{
   display: flex;
   flex-direction: column;
+  align-items: center;
+
+}
+.carrinho {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  margin: auto;
+}
+.item{
+  margin: 2% 20px;
+  list-style: none;
+  background-color: #0D0D0D;
+  color: white;
+  padding: 20px;
+  border-radius: 15px;
 }
 
-li {
-  margin-right: 20px;
-  margin-left: 20px;
+.itemCarrinho{
   list-style: none;
+  background-color: #0D0D0D;
+  color: white;
+  padding: 20px;
+  border-radius: 15px;
+  margin: 5px 20px;
+
 }
 
 #mais {
@@ -175,5 +191,8 @@ li {
   padding-left: 6px;
   background-color: rgb(230, 43, 32);
   box-shadow: 2px 3px 5px rgb(116, 26, 22);
+}
+h1{
+  text-align: center;
 }
 </style>
